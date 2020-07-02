@@ -39,7 +39,7 @@
     </script>    
     </head>
     <body onload="showClock()"> 
-        <div id="divClock" class="clock"></div>
+        <h2 style="font-family:돋움;font-size:50pt"><div id="divClock" class="clock"></div></h2>
 
   
     </body>
