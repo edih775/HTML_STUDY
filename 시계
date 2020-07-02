@@ -1,0 +1,46 @@
+<html>
+    <head>
+    <title>-------------</title> <!--제목-->
+    <style type="text/css">     /* css 사용선언 */
+     
+    </style>
+    <script language = "javascript"> // 자바 사용 선언
+    function showClock(){
+        var currentDate = new Date();
+        var divClock = document.getElementById("divClock");
+
+        if (currentDate.getHours() >= 12)  // 12시가 넘으면 오후 표시
+        {
+            var msg = "현재 시간: 오후 " + currentDate.getHours() + "시 ";
+            msg += currentDate.getMinutes() + "분 ";
+            msg += currentDate.getSeconds() + "초 ";
+            divClock.innerText = msg;
+        }
+        
+        else if (currentDate.getHours() < 12) // 12시가 안되면 오전 표시
+        {
+            var msg = "현재 시간: 오전 " + currentDate.getHours() + "시 ";
+            msg += currentDate.getMinutes() + "분 ";
+            msg += currentDate.getSeconds() + "초 ";
+            divClock.innerText = msg;
+        }
+
+        //처음 쓰던 방식
+        //var msg = "현재 시간: 오전 " + currentDate.getHours() + "시 ";
+        //msg += currentDate.getMinutes() + "분 ";
+        //msg += currentDate.getSeconds() + "초 ";
+        //divClock.innerText = msg;
+
+        setTimeout(showClock,1000);
+    }
+
+
+
+    </script>    
+    </head>
+    <body onload="showClock()"> 
+        <div id="divClock" class="clock"></div>
+
+  
+    </body>
+</html>
