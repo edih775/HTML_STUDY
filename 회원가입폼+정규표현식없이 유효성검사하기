@@ -1,0 +1,275 @@
+
+<html>
+	<head>
+		<title> 회원가입폼 + 유효성 검사 + 우편번호</title>
+		<audio src="Heroes Tonight.mp3" controls ></audio>*는 필수 기입 사항입니다.
+			<script language="javascript">
+				//유효성 검사를 위한 변수들
+                var ckID_lower = "abcdefghijklmnopqrstuvwyz";
+                var ckID_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var ckID_num = "1234567890";
+
+                function allCK(){
+                    var ck1 = formcheck(); //아이디체크
+                    var ck2 = PWcheck();   // 암호 체크
+                    var ck3 = PWcheck2();  // 암호 다시쓰기 체크
+                    var ck4 = EMcheck();   // 이메일 체크
+                    var ck5 = IDNUMcheck(); // 주민번호 체크
+                    var ck6 = CKbox();   // 관심분야 체크
+                    var ck7 = TXTarea() // 자기소개 체크
+                    if(ck1 == 0 && ck2 == 0 && ck3 ==0 && ck4 == 0 && ck5 ==0 && ck6 ==0 && ck7 ==0){
+                        return true; //최종 제출
+                    }
+                    else{
+                        return false; // 제출 중시
+                    }
+                }
+				function formcheck(){
+                    var IDpass = 0;
+                    var IDCK = document.getElementById("my_id").value;
+                    for(var i= 0 ; i < IDCK.length ; i ++){                 //아이디 값에 소문자가 있으면 
+                        for (var j = 0 ; j <ckID_lower.length ; j++){
+                            if (IDCK[i] == ckID_lower[j]){                  // 그 수만큼 pass 변수 값 증가
+                                IDpass ++ ;
+                            }
+                        }
+                    }
+                    for(i = 0 ; i < IDCK.length ; i++){                     //아이디 값에 대문자가 있으면
+                        for (j = 0 ; j < ckID_upper.length ; j++){
+                            if (IDCK[i] == ckID_upper[j]){                  // 그 수만큼 pass 변수 값 증가
+                                IDpass ++ ;
+                            }
+                        }
+                    }
+                    for(i = 0 ; i < IDCK.length ; i++){                     //아이디 값에 숫자가 있으면
+                        for (j = 0 ; j < ckID_num.length ; j++){
+                            if (IDCK[i] == ckID_num[j]){                    // 그 수만큼 pass 변수 값 증가
+                                IDpass ++ ;
+                            }
+                        }
+                    }
+                    if (IDCK.length == IDpass ){           //아이디의 길이 만큼 pass가 있으면 모든 검사에 통과했다는 의미
+                        //if (3 < pass <13){              // 글자수 제한 확인 = html로 대체
+                        //    PWcheck()
+                        //}
+                        return 0 ;
+                                          // 암호 체크 시작
+                    }                             
+                    else {
+                        alert("적절하지 않은 아이디 입니다.");
+                        return 1;
+                    }
+                }
+                    function PWcheck(){
+                        var PWpass = 0;
+                        var PWCK = document.getElementById("my_password").value;
+                        for( var i = 0 ; i < PWCK.length ; i++){
+                            for(var j = 0 ; j < ckID_lower.length; j++){    //암호 소문자 유효성 검사
+                                if (PWCK[i] == ckID_lower[j]){
+                                    PWpass ++;
+                                }
+                            }
+                        }
+                        for( var i = 0 ; i < PWCK.length ; i++){
+                            for(var j = 0 ; j < ckID_upper.length; j++){ // 암호 대문자 유효성 검사
+                                if (PWCK[i] == ckID_upper[j]){
+                                    PWpass ++;
+                                }
+                            }
+                        }
+                        for( var i = 0 ; i < PWCK.length ; i++){
+                            for(var j = 0 ; j < ckID_num.length; j++){ //암호 숫자 유효성 검사
+                                if (PWCK[i] == ckID_num[j]){
+                                    PWpass ++;
+                                }
+                            }
+                        }
+                        if (PWCK.length == PWpass){
+                            return 0 ;  
+                        }
+                        else{
+                            alert("올바르지 못한 암호입니다.");
+                            return 1;
+                        }
+                    }
+                    function PWcheck2(){                        // 암호와 암호 다시쓰기 일치 유무 검사
+                        var PW1 = document.getElementById("my_password").value;
+                        var PW2 = document.getElementById("my_password2").value;
+                        if (PW1 != PW2){
+                            alert("암호가 일치하지 않습니다.");
+                            return 1;
+                        }
+                        else {
+                            return 0 ;   
+                        }
+                    }
+                    function EMcheck(){
+                        var EM = document.getElementById("my_email").value;
+                        var whelk = 0;
+                        var dot = 0;
+                        for (var i = 0 ; i < EM.length ; i++){
+                            if(EM[i] == "@"){                           //메일에 @문자가 있다면 변수 값이 증가함
+                                whelk ++ ;
+                            }
+                        }
+                        if (whelk == 0){
+                            alert("올바른 이메일 형식이 아닙니다.");      //메일에 @문자가 없으면 올바른 이메일이 아님
+                            return 1;
+                        }
+                        for (var j = 0 ; j < EM.length ; j++){          // 마찬가지로 이메일에 점이 없으면 올바른 이메일이 아님
+                            if(EM[j] == "."){
+                                dot ++;
+                            }
+                        }
+                        if (dot == 0 ){
+                            alert("올바른 이메일 형식이 아닙니다.");
+                            return 1;
+                        }
+                        else{
+                            return 0 ;    
+                        }
+                    }
+                    function IDNUMcheck(){                              //주민등록번호 계산공식을 통한 유효성 검사
+                        var idn_fr = document.getElementById("idnum_front").value;
+                        var idn_bk = document.getElementById("idnum_back").value;
+                        var idn_ckary = new Array();
+                        var lastnum = 0;
+                        for(var i = 0 ; i<6 ; i++ ){
+                            idn_ckary[i]=idn_fr[i]*(i+2);
+                        }        
+                        for(i = 6 ; i < 13 ; i++ ){
+                            if(i < 8 ){
+                                idn_ckary[i] = parseInt(idn_bk[i-6])*(i+2);
+                            }
+                            else{
+                                idn_ckary[i] = parseInt(idn_bk[i-6])*(i-6);
+                            }
+                        }
+                        for(i = 0 ; i < 12 ; i++ ){
+                            lastnum += idn_ckary[i];
+                        }
+                        lastnum = (11 - ((lastnum % 11) % 10));
+                        if(lastnum != idn_bk[6]){
+                            alert("올바른 주민번호가 아닙니다.");
+                            return 1;
+                        }
+                        else{
+                            return 0 ;        
+                        }
+                    }
+                    function Bday_write(){                      // 생일칸에 자동으로 넣어주는 펑션
+                        var idn_fr = document.getElementById("idnum_front").value;  // 주민번호가 991222 라면
+                        var Byear = parseInt(idn_fr[0])*10+parseInt(idn_fr[1]);     // 첫자리 9x10 + 둘째자리9 = 99 년
+                        var Bmonth = parseInt(idn_fr[2])*10+parseInt(idn_fr[3]);    // 셋째자리 1x10 + 넷째자리 2 = 12월
+                        var Bday = parseInt(idn_fr[4])*10+parseInt(idn_fr[5]);      // 다섯자리 2x10 + 마지막 2 = 22일 이 된다.
+                        if(Byear>20){
+                            Byear+=1900;
+                        }
+                        else {
+                            Byear+=2000;
+                        }
+                        document.getElementById("birth_year").value=Byear;
+                        document.getElementById("birth_month").value=Bmonth;
+                        document.getElementById("birth_day").value=Bday;
+                    }
+                    function CKbox(){
+                        var checkon = document.getElementsByName("Interests");
+                        if (checkon[0].checked == false &&
+                        checkon[1].checked == false && 
+						checkon[2].checked == false && 
+						checkon[3].checked == false ){
+                            alert("관심분야는 적어도 하나 이상 선택해야 합니다.");
+                            return 1;
+                        }
+                        else{
+                            return 0;
+                        }
+                    }
+                    function TXTarea(){
+                        var count = document.getElementById("my_intro"); //textarea의 길이를 측정하는 함수
+						if(count.value.length < 30) {
+                            count.value =  count.value.substr(0, 30);
+                            alert("자기소개는 최소 30자 이상 써야 합니다.");
+                            return 1;
+						}
+						else {
+							return 0;		
+						}	
+                    }
+
+			</script>
+		
+	</head>
+	
+	<body align="center">
+	<form action="mailto:edih775@naver.com" method="get" align = "center" onsubmit="return allCK()">
+	<script type="text/javascript" src="main.js"></script>
+	<table align="center" width="600" height="500" border="1" Bgcolor ="#e9e9e9">
+	<tr bgcolor="#e9e9e9"><!--1줄-->
+	<td align="center" Bgcolor="#e9e9e9" colspan="2"><b>회원 기본 정보</b></td> 
+	</tr>
+	<tr><!--2줄 아이디-->
+	<td align="center" Bgcolor="#b0e0e6">*아이디:</td><td bgcolor="#ffffff"><input type="text" id="my_id" minlength="4" maxlength="12" required size="20"> 4~12자의 영문 대소문자와 숫자로만 입력</td>
+	</tr>
+	<tr><!--3줄 비번-->
+	<td align="center" Bgcolor="#b0e0e6">*비밀번호:</td><td bgcolor="#ffffff"><input type="password" id="my_password" minlength="4" maxlength="12" required size="20"> 4~12자의 영문 대소문자와 숫자로만 입력</td>
+	</tr>
+	<tr><!--4줄 비번확인-->
+	<td align="center" Bgcolor="#b0e0e6">*비밀번호 확인:</td><td bgcolor="#ffffff"><input type="password" id="my_password2" size="20"></td>
+	</tr>
+	<tr><!--5줄 메일 주소-->
+	<td align="center" Bgcolor="#b0e0e6">*메일주소:</td><td bgcolor="#ffffff"><input type="text" id="my_email" size="25">예)id@domain.com</td>
+	</tr>
+	<tr><!--6줄 이름 입력-->
+	<td align="center" Bgcolor="#b0e0e6">*이름:</td><td bgcolor="#ffffff"><input type="text" id="my_name" size="25"></td>
+	</tr>
+	<tr><!--7줄 개인신상 제목-->
+	<td align ="center" Bgcolor="#e9e9e9" colspan="2"><b>개인 신상 정보</b></td>
+	</tr>
+	<tr><!--8줄 주민번호-->
+	<td align="center" Bgcolor="#b0e0e6">*주민등록번호:</td><td bgcolor="#ffffff">
+		<input type="text" id="idnum_front" onkeyup="Bday_write()" size="15" maxlength="6">
+		-
+		<input type="password" id="idnum_back" size="15" maxlength="7">예)123456-1234567</td>
+	</tr>
+	<tr><!--8줄-->
+	<td align="center" Bgcolor="#b0e0e6">주소:</td>
+		
+	<td>
+		<!--다음 주소찾기 API HTML 코드 시작-->
+		<input type="text" id="sample6_postcode" placeholder="우편번호" />
+		<input type="button" onclick="daumPostcode()"value="우편번호 찾기"/><br>
+		<input type="text" id="sample6_address" placeholder="주소"/><br>
+		<input type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+		<input type="text" id="sample6_extraAddress"  placeholder="참고항목"/>
+		<!--다음 주소찾기 API HTML 코드 종료-->
+	  </td>
+		</tr>
+	<tr><!--9줄-->
+	<td align="center" Bgcolor="#b0e0e6">생일:</td>
+	<td bgcolor="#ffffff">
+	<input type="text" id="birth_year" size="9" maxlength="4">년
+	<input type="text" id="birth_month" size="9" maxlength ="2">월
+	<input type="text" id="birth_day" size="9" maxlength="2">일
+	
+	</td>
+	</tr>
+	<tr><!--10줄-->
+	<td align="center" Bgcolor="#b0e0e6">*관심분야:</td><td bgcolor="#ffffff"><input type="checkbox" name="Interests" value="컴퓨터">컴퓨터
+	<input type="checkbox" name="Interests" value="인터넷">인터넷
+	<input type="checkbox" name="Interests" value="여행">여행
+	<input type="checkbox" name="Interests" value="영화감상">영화감상
+	<input type="checkbox" name="Interests" value="음악감상">음악감상
+	
+	</td>
+	</tr>
+	<tr><!--11줄-->
+	<td align="center" Bgcolor="#b0e0e6">*자기소개:</td><td bgcolor="#ffffff"><textarea id="my_intro" cols="50" rows="7">최소 30자 이상 입력해 주세요.</textarea></td>
+	</tr>
+	</table>
+	<!--전송버튼과 다시입력버튼--><br>
+	<input  type="submit" value="회원 가입">
+	<input  type="reset" value="다시 입력">
+	</form>
+	</body>
+	</html>
